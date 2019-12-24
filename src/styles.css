@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+/* Estilo global aplicado em todo o projeto*/
+body{
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #404c51;
+}
+/* define os estilos aplicados nos labels, fonte em negrito, etc. */
+label{
+  font-weight: bold;
+}
+
+/*Define os estilos aplicados nos links da tabela status - cap. 1.13 e 13.2 */
+a {
+  color: #337ab7;
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+
+
+/* Define as características/comportamentos dos componentes que estão dentro do container para os tamanhos de tela minimos
+1200px, ...*/
+@media(min-width: 1200px){
+  .container {
+    width: 1170px ; /* Largura máxima do container*/
+    margin: 0 auto; /*centraliza o container automaticamente*/
+  }
+}
+
+/*Estilos de Table, especifica separadamente as colunas, por cabeçalho e conteúdo */
+.col-valor-header {
+  width: 120px;
+}
+.col-valor-content {
+  text-align: right;
+}
+.col-data-header {
+  width: 120px;
+}
+.col-data-content {
+  text-align: center;
+}
+.col-acoes {
+  width: 106px;
+  text-align: center;
+}
+
+/*Estilo aplicado aos buttons para resolver o problema de espaçamento lateral*/
+.spaceButton {
+  margin: 0 .5em!important;
+}

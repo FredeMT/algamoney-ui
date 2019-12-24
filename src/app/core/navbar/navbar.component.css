@@ -1,0 +1,49 @@
+.navbar {
+  padding: 10px 0;
+  background-color: #1e94d2;
+}
+
+.navbar-toggle {
+  color: white;
+}
+
+/*Estilo do menu intercambiável */
+.navbar-menu {
+  position:fixed; /*fixa o menu para que fique visível mesmo se houver rolagem. */
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 210px;
+  margin: 0;
+  padding: 0; /*retira a margen interna para aproximar a li*/
+  z-index: 9998;  /*o menu fica na camada mais alta*/
+  background-color: #3a3633;
+
+  list-style: none; /*retira as bolinhas de itens */
+}
+
+.navbar-usuario {
+  padding: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #525151; /*linha separadora*/
+
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fff;
+}
+
+/*Estilo dos itens de navegação */
+.navbar-menuitem {
+  padding: 15px;
+}
+/* Estilo de navbar item a (<a...> elemento filho de navbar) */
+.navbar-menuitem a{
+  color: #c0bbb7;
+  text-decoration: none;
+}
+
+/* Estilo de navbar item no caso de hover (passar o mouse por cima do item) */
+.navbar-menuitem a:hover {
+  color: #fff;
+}
+

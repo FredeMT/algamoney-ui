@@ -1,0 +1,7 @@
+/*Define os estilos aplicados nos links da tabela status - cap. 1.13 */
+a {
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+}
