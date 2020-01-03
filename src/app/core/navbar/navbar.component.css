@@ -47,3 +47,8 @@
   color: #fff;
 }
 
+/*Estilo de cor de fundo no caso de link selecionado ativo */
+.navbar-menuitem.ativo {
+  background-color: #494541;
+}
+

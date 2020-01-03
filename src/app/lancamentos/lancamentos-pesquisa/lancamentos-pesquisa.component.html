@@ -38,7 +38,7 @@
         </p-dialog>
       </div>
 
-      <p-table [value]="lancamentos"  [responsive]=true
+      <p-table [value]="lancamentos"  [responsive]=true #tabela
       [paginator]=true [rows]="filtro.itensPorPagina"
       [lazy]=true [totalRecords]="totalRegistros"
       (onLazyLoad)="aoMudarPagina($event)">
@@ -56,13 +56,16 @@
           <tr>
             <td>{{lancamento.pessoa}}</td>
             <td>{{lancamento.descricao}}</td>
-            <td class="col-data-content">{{lancamento.dataVencimento}}</td>
-            <td class="col-data-content">{{lancamento.dataPagamento}}</td>
+            <td class="col-data-content">{{lancamento.dataVencimento | date:'dd/MM/yyyy'}}</td>
+            <td class="col-data-content">{{lancamento.dataPagamento | date:'dd/MM/yyyy'}}</td>
             <td class="col-valor-content" [style.color]="lancamento.tipo === 'DESPESA' ? 'red' : 'blue' ">
-              {{lancamento.valor}}</td>
+              {{ lancamento.valor | number:'1.2-2' }}</td>
             <td class="col-acoes">
-              <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
-              <button class="spaceButton" pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"></button>
+              <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
+              [routerLink]="['/lancamentos', lancamento.codigo]"></a>
+              <button class="spaceButton" pButton icon="pi pi-trash"
+              pTooltip="Excluir" tooltipPosition="top"
+              (click)="confirmarExclusao(lancamento)"></button>
             </td>
           </tr>
         </ng-template>
@@ -72,7 +75,7 @@
       </p-table>
     </div>
     <div class="ui-g-12">
-      <a pButton label="Novo Lançamento"></a>
+      <a pButton label="Novo Lançamento" routerLink="/lancamentos/novo"></a>
     </div>
   </div>
 </div>

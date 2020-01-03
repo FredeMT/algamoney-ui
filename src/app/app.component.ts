@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ToastyConfig } from 'ng2-toasty';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'algamoney-ui';
+
+  constructor(private toastyConfig: ToastyConfig) {
+    toastyConfig.theme = 'bootstrap';
+  }
 
 }

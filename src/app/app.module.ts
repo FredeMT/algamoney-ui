@@ -8,6 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { LancamentosModule } from './lancamentos/lancamentos.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LancamentosModule } from './lancamentos/lancamentos.module';
     LancamentosModule,
     PessoasModule,
     CoreModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

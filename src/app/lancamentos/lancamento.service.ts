@@ -1,8 +1,10 @@
+import { Lancamento } from 'src/app/core/model';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
 
-/* interface que estabelece um contrato de utilização de somente os parametros descritos aqui, pelos
+/* interface/classe que estabelece um contrato de utilização de somente os parametros descritos aqui, pelos
 componentes, logo se usar um diferente vai dar erro */
 export class LancamentoFiltro {
   descricao: string;
@@ -54,9 +56,74 @@ export class LancamentoService {
           lancamentos,
           total: response['totalElements']
         };
-        console.log(JSON.stringify(resultado));
+     //   console.log(JSON.stringify(resultado));
         return resultado;
       });
-
   }
+
+  excluir(codigo: number): Promise < void> {
+    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    return this.http.delete(`${this.lancamentosUrl}/${codigo}`, { headers })
+      .toPromise()
+      .then(() => null);
+  }
+
+  adicionar(lancamento: Lancamento): Promise<Lancamento> {
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+    .set('Content-Type', 'application/json');
+    // Formatar os tipos datas para o padrão dos dados json ('DD/MM/YYYY')
+    let lanc = JSON.parse(JSON.stringify(lancamento));
+    lanc.dataVencimento = (moment(lancamento.dataVencimento).format('DD/MM/YYYY'));
+    lanc.dataPagamento = (moment(lancamento.dataPagamento).format('DD/MM/YYYY'));
+
+    return this.http.post<Lancamento>(this.lancamentosUrl, lanc, { headers })
+    .toPromise();
+  }
+
+  atualizar(lancamento: Lancamento): Promise<Lancamento> {
+    const headers = new HttpHeaders()
+    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==')
+    .append('Content-Type', 'application/json');
+    lancamento = this.converterDatasParaString(lancamento);
+    console.log('lancamento atualizado: ', lancamento);
+    return this.http.put(`${this.lancamentosUrl}/${lancamento.codigo}`, lancamento, { headers })
+    .toPromise()
+    .then(response => {
+      const lancamentoAlterado = response.valueOf() as Lancamento;
+      this.converterStringsParaDatas([lancamentoAlterado]);
+      return lancamentoAlterado;
+    });
+  }
+
+  buscarPorCodigo(codigo: number): Promise<Lancamento> {
+    const headers = new HttpHeaders()
+    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+    return this.http.get(`${this.lancamentosUrl}/${codigo}`, { headers })
+    .toPromise()
+    .then(response => {
+      const lancamento = response.valueOf() as Lancamento;
+      this.converterStringsParaDatas([lancamento]);
+      return lancamento;
+    });
+  }
+
+  private converterStringsParaDatas(lancamentos: Lancamento[]) {
+    for (const lancamento of lancamentos) {
+      lancamento.dataVencimento = moment(lancamento.dataVencimento, 'DD/MM/YYYY').toDate();
+      if (lancamento.dataPagamento) {
+        lancamento.dataPagamento = moment(lancamento.dataPagamento, 'DD/MM/YYYY').toDate();
+      }
+    }
+  }
+
+  // Formatar os tipos datas para o padrão dos dados json ('DD/MM/YYYY') da api
+  private converterDatasParaString(lancamento: Lancamento) {
+    const lancamentoString = JSON.parse(JSON.stringify(lancamento));
+    lancamentoString.dataVencimento = moment(lancamento.dataVencimento).format('DD/MM/YYYY');
+    lancamentoString.dataPagamento = moment(lancamento.dataPagamento).format('DD/MM/YYYY');
+    return lancamentoString;
+  }
+
+
 }

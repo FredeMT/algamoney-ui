@@ -1,14 +1,15 @@
 <div class="container">
-  <form autocomplete="off" #f="ngForm">
+  <form autocomplete="off" #f="ngForm" (ngSubmit)="salvar(f)">
     <div class="ui-g">
 
       <div class="ui-g-12">
-        <h1>Nova Pessoa</h1>
+        <h1>{{ titulo }}</h1>
       </div>
       <div class="ui-g ui-fluid">
         <div class=" ui-g-12">
           <label>Nome</label>
-          <input pInputText type="text" ngModel name="nome" #nome="ngModel" required minlength="5" >
+          <input pInputText type="text" name="nome" #nome="ngModel" required minlength="5"
+          [(ngModel)]="pessoa.nome" >
           <app-message [control]="nome" error="required" text="Informe um nome."></app-message>
           <app-message [control]="nome" error="minlength"
           text="Mínimo de {{nome.errors?.minlength?.requiredLength}} caracteres."></app-message>
@@ -16,45 +17,52 @@
 
         <div class=" ui-g-12 ui-md-10">
           <label>Logradouro</label>
-          <input pInputText type="text" ngModel name="logradouro" #logradouro="ngModel" required>
+          <input pInputText type="text" name="logradouro" #logradouro="ngModel" required
+          [(ngModel)]="pessoa.endereco.logradouro">
           <app-message [control]="logradouro" error="required" text="Informe o logradouro."></app-message>
         </div>
         <div class=" ui-g-12 ui-md-2">
           <label>Número</label>
-          <input pInputText type="text" ngModel name="numero" #numero="ngModel" required>
+          <input pInputText type="text" name="numero" #numero="ngModel" required maxlength="10"
+          [(ngModel)]="pessoa.endereco.numero">
           <app-message [control]="numero" error="required" text="Informe o número."></app-message>
         </div>
         <div class="ui-g-12 ui-md-4 ">
           <label>Complemento</label>
-          <input pInputText type="text">
+          <input pInputText type="text" name="complemento" [(ngModel)]="pessoa.endereco.complemento">
         </div>
         <div class="ui-g-12 ui-md-4 ">
           <label>Bairro</label>
-          <input pInputText type="text" ngModel name="bairro" #bairro="ngModel" required>
+          <input pInputText type="text" name="bairro" #bairro="ngModel" required
+          [(ngModel)]="pessoa.endereco.bairro">
           <app-message [control]="bairro" error="required" text="Informe o bairro." ></app-message>
         </div>
         <div class="ui-g-12 ui-md-4 ">
           <label>CEP</label>
-          <p-inputMask mask="99.999-999" ngModel name="cep" #cep="ngModel" required></p-inputMask>
+          <p-inputMask mask="99.999-999" name="cep" #cep="ngModel" required
+          [(ngModel)]="pessoa.endereco.cep"></p-inputMask>
           <app-message [control]="cep" error="required" text="Informe o CEP." ></app-message>
         </div>
         <div class="ui-g-12 ui-md-6 ">
           <label>Cidade</label>
-          <input pInputText type="text" ngModel name="cidade" #cidade="ngModel" required>
+          <input pInputText type="text" name="cidade" #cidade="ngModel" required
+          [(ngModel)]="pessoa.endereco.cidade">
           <app-message [control]="cidade" error="required" text="Informe a cidade." ></app-message>
         </div>
         <div class="ui-g-12 ui-md-6 ">
           <label>Estado</label>
-          <input pInputText type="text" ngModel name="estado" #estado="ngModel" required>
+          <input pInputText type="text" name="estado" #estado="ngModel" required
+          [(ngModel)]="pessoa.endereco.estado">
           <app-message [control]="estado" error="required" text="Informe o estado." ></app-message>
         </div>
       </div>
       <div class="ui-g-12">
         <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
 
-        <button pButton type="button" label="Novo" class="spaceButton  ui-button-secondary"></button>
+        <button pButton type="button" label="Novo" class="spaceButton  ui-button-secondary"
+        (click)="novo(f)"></button>
 
-        <a href="javascript:;">Voltar para a pesquisa</a>
+        <a routerLink="/pessoas">Voltar para a pesquisa</a>
       </div>
     </div>
   </form>

@@ -17,16 +17,13 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 
 import {DialogModule} from 'primeng/dialog';
-
-
-
+import { LancamentosRoutingModule } from './ lancamentos-routing.module';
 
 
 @NgModule({
   declarations: [ LancamentoCadastroComponent,
     LancamentosPesquisaComponent],
-    exports: [LancamentoCadastroComponent,
-      LancamentosPesquisaComponent],
+    exports: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -40,6 +37,7 @@ import {DialogModule} from 'primeng/dialog';
     SelectButtonModule,
     DropdownModule,
     CurrencyMaskModule,
+    LancamentosRoutingModule,
 
     SharedModule,
     ProgressSpinnerModule,
