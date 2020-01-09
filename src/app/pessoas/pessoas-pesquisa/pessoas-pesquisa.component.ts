@@ -1,3 +1,4 @@
+import { AuthService } from './../../seguranca/auth.service';
 import { Table } from 'primeng/table';
 import { PessoaService } from './../pessoa.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
@@ -23,7 +24,8 @@ export class PessoasPesquisaComponent implements OnInit {
               private toasty: ToastyService,
               private confirmation: ConfirmationService,
               private errorHandler: ErrorHandlerService,
-              private title: Title) { }
+              private title: Title,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.title.setTitle('Pesquisa de Pessoas');
@@ -35,8 +37,7 @@ export class PessoasPesquisaComponent implements OnInit {
       .then(resultado => {
         this.totalRegistros = resultado.total;
         this.pessoas = resultado.pessoas;
-        console.log(JSON.stringify(resultado));
-      })
+      } )
       .catch(erro => this.errorHandler.handle(erro));
   }
 

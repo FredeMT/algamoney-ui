@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { AppRoutingModule } from './app-routing.module';
+import { SegurancaModule } from './seguranca/seguranca.module';
 
 @NgModule({
   declarations: [
@@ -17,11 +18,12 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
 
     LancamentosModule,
     PessoasModule,
     CoreModule,
-    HttpClientModule,
+    SegurancaModule,
     AppRoutingModule
   ],
   providers: [],

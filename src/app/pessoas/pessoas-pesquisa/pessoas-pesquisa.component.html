@@ -44,7 +44,8 @@
               <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
               [routerLink]="['/pessoas', pessoa.codigo]"></a>
               <button pButton class="spaceButton" icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"
-                (click)="confirmarExclusao(pessoa)"></button>
+                (click)="confirmarExclusao(pessoa)"
+                [disabled]="!auth.temPermissao('ROLE_REMOVER_PESSOA')"></button>
             </td>
           </tr>
         </ng-template>

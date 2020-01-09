@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -6,13 +6,12 @@ import { Injectable } from '@angular/core';
 })
 export class CategoriaService {
   // Propriedade que indica a URI a ser utilizada
-  categoriasUrl = 'http://localhost:8080/categorias'
+  categoriasUrl = 'http://localhost:8080/categorias';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   listarTodas(): Promise<any> {
-    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-    return this.http.get(this.categoriasUrl, { headers })
+    return this.http.get(this.categoriasUrl)
       .toPromise()
       .then(response => response);
   }

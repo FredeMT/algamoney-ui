@@ -1,0 +1,24 @@
+<div class="container" style="max-width: 400px; margin: auto">
+
+{{auth.jwtPayload | json }}
+
+  <form autocomplete="off" #f="ngForm">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12">
+        <h1>Login</h1>
+      </div>
+      <div class="ui-g-12">
+        <input pInputText type="text" placeholder="E-mail"
+        ngModel required #usuario name="usuario" autofocus>
+      </div>
+      <div class="ui-g-12">
+        <input type="password" pInputText type placeholder="Senha"
+        ngModel required #senha name="senha">
+      </div>
+      <div class="ui-g-12">
+        <button pButton type="submit" label="Login"[disabled]="!f.valid"
+        (click)="login(usuario.value, senha.value); f.reset(); usuario.focus();"></button>
+      </div>
+    </div>
+  </form>
+  </div>
