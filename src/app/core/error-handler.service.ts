@@ -1,4 +1,3 @@
-import { CoreModule } from './core.module';
 import { Injectable } from '@angular/core';
 import { ToastyService } from 'ng2-toasty';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -6,7 +5,7 @@ import { Router } from '@angular/router';
 import { NotAuthenticatedError } from '../seguranca/money-http-interceptor';
 
 @Injectable({
-  providedIn: CoreModule
+  providedIn: 'root'
 })
 export class ErrorHandlerService {
 

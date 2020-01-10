@@ -9,6 +9,7 @@ export class AuthService {
 
   oauthTokenUrl = 'http://localhost:8080/oauth/token';
   jwtPayload: any;
+  tokensRevokeUrl = 'http://localhost:8080/tokens/revoke';
 
   constructor(private http: HttpClient,
               private jwtHelper: JwtHelperService ) {
@@ -55,6 +56,19 @@ export class AuthService {
       return Promise.resolve(null); // Se der erro não tem o que fazer (não tem tratamento) por isso não usamos reject.
     });
 
+  }
+
+  logout() {
+    return this.http.delete(this.tokensRevokeUrl, { withCredentials: true})
+    .toPromise()
+    .then(() => {
+      this.limparAccessToken();
+    });
+  }
+
+  limparAccessToken() {
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
   }
 
   isAccessTokenInvalido() {
