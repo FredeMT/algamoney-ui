@@ -20,13 +20,14 @@ export class LancamentosPesquisaComponent implements OnInit {
   lancamentos = [];
   filtro = new LancamentoFiltro();
   @ViewChild('tabela', { static: true }) grid: Table;
+  loading = false;
 
   constructor(private lancementoService: LancamentoService,
               private toasty: ToastyService,
               private confirmation: ConfirmationService,
               private errorHandler: ErrorHandlerService,
               private title: Title,
-              private auth: AuthService) { }
+              public auth: AuthService) { }
 
   ngOnInit() {
     // this.pesquisar();

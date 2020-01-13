@@ -1,3 +1,5 @@
+import { environment } from './../../environments/environment';
+
 import { MoneyHttpInterceptor } from './money-http-interceptor';
 import { ButtonModule } from 'primeng/components/button/button';
 import { InputTextModule } from 'primeng/components/inputtext/inputtext';
@@ -27,8 +29,9 @@ export function tokenGetter(): string {
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        whitelistedDomains: ['localhost:8080'],
-        blacklistedRoutes: ['http://localhost:8080/oauth/token']
+        // whitelistedDomains: [`${environment.apiUrl.substring(environment.apiUrl.indexOf('://') + 3)}`],
+        whitelistedDomains: environment.tokenWhitelistedDomains,
+        blacklistedRoutes: [`${environment.apiUrl}/oauth/token`]
       }
     })
   ],

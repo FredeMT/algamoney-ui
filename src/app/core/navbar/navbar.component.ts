@@ -11,7 +11,9 @@ import { ErrorHandlerService } from '../error-handler.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private auth: AuthService,
+  exibindoMenu = false;
+
+  constructor(public auth: AuthService,
               private route: Router,
               private errorHandler: ErrorHandlerService ) { }
 

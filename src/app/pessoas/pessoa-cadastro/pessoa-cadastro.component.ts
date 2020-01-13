@@ -46,7 +46,7 @@ export class PessoaCadastroComponent implements OnInit {
     .catch(erro => this.errorHandler.handle(erro));
   }
 
-  salvar(form: FormControl) {
+  salvar(form) {
     if (this.editando) {
       this.atualizarPessoa(form);
     } else {
@@ -76,7 +76,7 @@ export class PessoaCadastroComponent implements OnInit {
     .catch(erro => this.errorHandler.handle(erro));
   }
 
-  novo(form: FormControl) {
+  novo(form) {
     this.pessoa = new Pessoa();
     form.reset();
     this.router.navigate(['/pessoas/nova']);

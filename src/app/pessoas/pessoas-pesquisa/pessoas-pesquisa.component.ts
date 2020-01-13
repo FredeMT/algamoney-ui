@@ -25,7 +25,7 @@ export class PessoasPesquisaComponent implements OnInit {
               private confirmation: ConfirmationService,
               private errorHandler: ErrorHandlerService,
               private title: Title,
-              private auth: AuthService) { }
+              public auth: AuthService) { }
 
   ngOnInit() {
     this.title.setTitle('Pesquisa de Pessoas');
@@ -78,7 +78,7 @@ export class PessoasPesquisaComponent implements OnInit {
       .catch(erro => this.errorHandler.handle(erro));
   }
 
-  private getEstilosAtivo(ativo: boolean) {
+  public getEstilosAtivo(ativo: boolean) {
     return {
       color: 'white',
       textDecoration: 'none',

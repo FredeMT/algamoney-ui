@@ -122,7 +122,7 @@ carregarLancamento(codigo: number) {
     }
   */
 
-  salvar(form: FormControl) {
+  salvar(form) {
     if (this.editando) {
       this.atualizarLancamento(form);
     } else {
@@ -153,7 +153,7 @@ carregarLancamento(codigo: number) {
     .catch(erro => this.errorHandler.handle(erro));
   }
 
-   novo(form: FormControl) {
+   novo(form) {
     this.lancamento = new Lancamento();
     form.reset({tipo: this.lancamento.tipo});
     this.router.navigate([ '/lancamentos/novo']);
