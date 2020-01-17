@@ -5,7 +5,7 @@ import { CategoriaService } from './../../categorias/categoria.service';
 import { Component, OnInit } from '@angular/core';
 import { Lancamento } from 'src/app/core/model';
 import { ToastyService } from 'ng2-toasty';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -66,7 +66,7 @@ export class LancamentoCadastroComponent implements OnInit {
       dataVencimento: [null, Validators.required],
       dataPagamento: [],
       // Aqui add um conjunto de validadores [Validators.required, Validators.minLength(5)]
-      descricao: [null, [Validators.required, Validators.minLength(5)]],
+      descricao: [null, [this.validarObrigatoriedade, this.validarTamanhoMinimo(5)]],
       valor: [null, Validators.required],
       // Como pessoa e categoria são classes (tem propriedades) instanciamos como formGroup, com suas propriedades.
       pessoa: this.formBuilder.group({
@@ -79,6 +79,16 @@ export class LancamentoCadastroComponent implements OnInit {
       }),
       observacao: []
     });
+  }
+
+  validarObrigatoriedade(input: FormControl) {
+    return (input.value ? null : {obrigatoriedade: true});
+  }
+
+  validarTamanhoMinimo(valor: number) {
+    return (input: FormControl) => {
+      return (!input.value || input.value.length >= valor) ? null : { tamanhoMinimo: { tamanho: valor } };
+    };
   }
 
  // Verifica se formulario.codigo tem um valor numérico, caso positivo é uma edição de Lançamento.
