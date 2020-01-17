@@ -5,7 +5,7 @@ import { CategoriaService } from './../../categorias/categoria.service';
 import { Component, OnInit } from '@angular/core';
 import { Lancamento } from 'src/app/core/model';
 import { ToastyService } from 'ng2-toasty';
-import { FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -20,23 +20,14 @@ export class LancamentoCadastroComponent implements OnInit {
     { label: 'Receita', value: 'RECEITA' },
     { label: 'Despesa', value: 'DESPESA' }
   ];
-  /*
-    categorias = [
-      { label: 'Alimentação', value: 1},
-      { label: 'Transporte', value: 2}
-    ];
-  */
+
   categorias = [];
   pessoas = [];
-  lancamento = new Lancamento();
+ // lancamento = new Lancamento();
+  /* Propriedade que vai passar a receber os valores do service, tratar e enviar para o template
+  substituindo o objdto lancamento. */
+  formulario: FormGroup;
   titulo: string;
-  /*
-  pessoas = [
-    { label: 'João da Silva', value: 4 },
-    { label: 'Sebastião Souza', value: 2 },
-    { label: 'Maria Abadia', value: 3 }
-  ];
-  */
 
   /* Injeta o service de categoria para listagem e errorHandler para tratar
   algum possível erro na chamada de categoriaService */
@@ -47,9 +38,12 @@ export class LancamentoCadastroComponent implements OnInit {
               private toasty: ToastyService,
               private route: ActivatedRoute,
               private router: Router,
-              private title: Title) { }
+              private title: Title,
+              private formBuilder: FormBuilder) { } // Criador de instancias
 
   ngOnInit() {
+    this.configurarFormulario();
+
     const codigoLancamento = this.route.snapshot.params.codigo;
     // const codigoLancamento = this.route.snapshot.params['codigo'];
     if (codigoLancamento) {
@@ -63,9 +57,34 @@ export class LancamentoCadastroComponent implements OnInit {
     this.title.setTitle(codigoLancamento ? 'Editar Lançamento' : 'Novo Lançamento');
   }
 
- // Verifica se lancamento.codigo tem um valor numérico, caso positivo é uma edição de Lançamento.
+  // Configura/Construtor de formulário - usa o FormBuilder - define as propriedades e funções
+  configurarFormulario() {
+    // Instancia um objeto do tipo formgroup com as seguintes propriedades e métodos
+    this.formulario = this.formBuilder.group({
+      codigo: [],
+      tipo: ['RECEITA', Validators.required],
+      dataVencimento: [null, Validators.required],
+      dataPagamento: [],
+      // Aqui add um conjunto de validadores [Validators.required, Validators.minLength(5)]
+      descricao: [null, [Validators.required, Validators.minLength(5)]],
+      valor: [null, Validators.required],
+      // Como pessoa e categoria são classes (tem propriedades) instanciamos como formGroup, com suas propriedades.
+      pessoa: this.formBuilder.group({
+        codigo: [null, Validators.required],
+        nome: []
+      }),
+      categoria: this.formBuilder.group({
+        codigo: [null, Validators.required],
+        nome: []
+      }),
+      observacao: []
+    });
+  }
+
+ // Verifica se formulario.codigo tem um valor numérico, caso positivo é uma edição de Lançamento.
   get editando() {
-    return Boolean(this.lancamento.codigo);
+  //  return Boolean(this.lancamento.codigo);
+    return Boolean(this.formulario.get('codigo').value);
   }
 
   defineTitulo(codigo: number) {
@@ -79,8 +98,9 @@ export class LancamentoCadastroComponent implements OnInit {
 carregarLancamento(codigo: number) {
   this.lancamentoService.buscarPorCodigo(codigo)
   .then(lancamento => {
-    this.lancamento = lancamento;
-    this.atualizarTituloEdicao();
+   // this.lancamento = lancamento;
+   this.formulario.patchValue(lancamento);  // atribui ao objeto formulario o objeto lancamento, com suas propriedades e valores
+   this.atualizarTituloEdicao();
   })
   .catch(erro => this.errorHandler.handle(erro));
 }
@@ -106,34 +126,20 @@ carregarLancamento(codigo: number) {
       })
       .catch(erro => this.errorHandler.handle(erro));
   }
-  /*
-    salvar(form: FormControl) {
-      console.log(this.lancamento);
-      this.lancamentoService.adicionar(this.lancamento)
-      .then(() => {
-        this.toasty.success('Lancamento adicionado com sucesso!');
-        form.reset();
-       // this.lancamento = new Lancamento();
-        setTimeout(function() {
-          this.lancamento = new Lancamento();
-        }.bind(this), 1);
-      })
-      .catch(erro => this.errorHandler.handle(erro));
-    }
-  */
-
-  salvar(form) {
+  // Eliminamos o parâmetro form em salvar(form) pois os métodos aqui já manipulam o formulario
+  salvar() {
     if (this.editando) {
-      this.atualizarLancamento(form);
+      this.atualizarLancamento();
     } else {
-      this.adicionarLancamento(form);
+      this.adicionarLancamento();
     }
   }
 
- // salvar(form: FormControl) -  Cap. 18.8 mudou o nome do metodo para adicionar
-  async adicionarLancamento(form: FormControl) {
+ // Eliminamos o parâmetro form em adicionarLancamento(form) pois os métodos aqui já manipulam o formulario
+  async adicionarLancamento() {
     try {
-     const lancamentoAdicionado = await  this.lancamentoService.adicionar(this.lancamento);
+    // Pega todas as propriedades/valor do formulario this.formulario.value  e passa para o service
+     const lancamentoAdicionado = await  this.lancamentoService.adicionar(this.formulario.value);
      this.toasty.success('Lancamento adicionado com sucesso!');
     //  form.reset({tipo: this.lancamento.tipo});
     //  this.lancamento = new Lancamento();
@@ -143,24 +149,29 @@ carregarLancamento(codigo: number) {
     }
   }
 
-  atualizarLancamento(form: FormControl) {
-    this.lancamentoService.atualizar(this.lancamento)
+  // Eliminamos o parâmetro form em atualizarLancamento(form) pois os métodos aqui já manipulam o formulario
+  atualizarLancamento() {
+    this.lancamentoService.atualizar(this.formulario.value)
     .then(lancamento => {
-      this.lancamento = lancamento;
+      // this.lancamento = lancamento;
+      // atribui as propriedades e valores do lancamento passado por arrowFunction ao objeto formulario
+      this.formulario.patchValue(lancamento);
       this.toasty.success('Lancamento alterado com sucesso!');
       this.atualizarTituloEdicao();
     })
     .catch(erro => this.errorHandler.handle(erro));
   }
 
-   novo(form) {
-    this.lancamento = new Lancamento();
-    form.reset({tipo: this.lancamento.tipo});
+  // Eliminamos o parâmetro form em novo(form) pois os métodos aqui já manipulam o formulario
+   novo() {
+   // this.lancamento = new Lancamento();
+   // form.reset({tipo: this.lancamento.tipo});
+    this.formulario.reset();
     this.router.navigate([ '/lancamentos/novo']);
   }
 
   atualizarTituloEdicao() {
-    this.title.setTitle(`Editar Lançamento: ${this.lancamento.descricao}`);
+    this.title.setTitle(`Editar Lançamento: ${this.formulario.get('descricao').value}`);
   }
 
 
