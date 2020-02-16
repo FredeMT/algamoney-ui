@@ -56,6 +56,11 @@
           <app-message [control]="estado" error="required" text="Informe o estado." ></app-message>
         </div>
       </div>
+
+      <div class="ui-g-12">
+      <app-pessoa-cadastro-contato [contatos]="pessoa.contatos"></app-pessoa-cadastro-contato>
+      </div>
+
       <div class="ui-g-12">
         <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
 
@@ -67,3 +72,4 @@
     </div>
   </form>
 </div>
+

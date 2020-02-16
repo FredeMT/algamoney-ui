@@ -1,5 +1,5 @@
 import { ErrorHandlerService } from './../../core/error-handler.service';
-import { Pessoa } from './../../core/model';
+import { Pessoa, Contato } from './../../core/model';
 import { PessoaService } from './../pessoa.service';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';

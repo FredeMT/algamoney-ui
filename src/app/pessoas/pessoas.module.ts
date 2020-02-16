@@ -1,3 +1,5 @@
+import { DialogModule } from 'primeng/dialog';
+import { PanelModule } from 'primeng/panel';
 import { InputMaskModule } from 'primeng/inputmask';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,6 +12,7 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { SharedModule } from '../shared/shared.module';
 import { PessoasRoutingModule } from './pessoas-routing.module';
+import { PessoaCadastroContatoComponent } from './pessoa-cadastro-contato/pessoa-cadastro-contato.component';
 
 
 
@@ -17,12 +20,15 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
   declarations: [
     PessoasPesquisaComponent,
     PessoaCadastroComponent,
+    PessoaCadastroContatoComponent,
   ],
   exports: [],
   imports: [
     CommonModule,
     FormsModule,
 
+    PanelModule,
+    DialogModule,
     InputTextModule,
     ButtonModule,
     TableModule,
