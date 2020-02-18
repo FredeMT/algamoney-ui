@@ -67,9 +67,10 @@ export class LancamentoService {
 
   adicionar(lancamento: Lancamento): Promise<Lancamento> {
     /* Formatar os tipos datas para o padrão dos dados json ('DD/MM/YYYY') */
-    let lanc = JSON.parse(JSON.stringify(lancamento));
+    const lanc = JSON.parse(JSON.stringify(lancamento));
     lanc.dataVencimento = (moment(lancamento.dataVencimento).format('DD/MM/YYYY'));
     lanc.dataPagamento = (moment(lancamento.dataPagamento).format('DD/MM/YYYY'));
+    if (lanc.dataPagamento === 'Invalid date') { lanc.dataPagamento = ''; }
     return this.http.post<Lancamento>(this.lancamentosUrl, lanc)
     .toPromise();
   }
@@ -109,6 +110,7 @@ export class LancamentoService {
     const lancamentoString = JSON.parse(JSON.stringify(lancamento));
     lancamentoString.dataVencimento = moment(lancamento.dataVencimento).format('DD/MM/YYYY');
     lancamentoString.dataPagamento = moment(lancamento.dataPagamento).format('DD/MM/YYYY');
+    if (lancamentoString.dataPagamento === 'Invalid date') { lancamentoString.dataPagamento = ''; }
     return lancamentoString;
   }
 
