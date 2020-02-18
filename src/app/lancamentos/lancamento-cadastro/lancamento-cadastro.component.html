@@ -58,9 +58,29 @@
         <textarea pInputTextarea rows="3" name="observacao"
         formControlName="observacao"></textarea>
       </div>
+      <div class="ui-g-6 ui-g-offset-6 ui-md-2 ui-md-offset-10"
+      *ngIf="!formulario.get('anexo').value">
+        <p-fileUpload name="anexo" mode="basic" auto="true" maxFileSize="1000000"
+        chooseLabel="Anexar" accept="image/*, application/*" [url]="urlUploadAnexo"
+        (onUpload)="aoTerminarUploadAnexo($event)"
+        (onError)="erroUpload($event)"
+        [hidden]="uploadEmAndamento"
+        (onBeforeUpload)="iniciandoUploadAnexo($event)"></p-fileUpload>
 
+        <p-progressSpinner [hidden]="!uploadEmAndamento"
+          [style]="{ width: '25px', height: '25px' } " strokeWidth="6"></p-progressSpinner>
+      </div>
+      <div class="ui-g-12" dir="rtl"
+        *ngIf="formulario.get('anexo').value">
+        <button pButton type="button" class="ui-button-danger spaceButton"
+          icon="pi pi-times" pTooltip="Remover anexo" tooltipPosition="top"
+          (click)="removerAnexo()"></button>
+
+        <a target="_blank" pTooltip="Baixar anexo" tooltipPosition="top"
+          [href]="formulario.get('urlAnexo').value">{{ nomeAnexo }}</a>
+      </div>
         <div class="ui-g-3">
-        <button  pButton type="submit" label="Salvar" [disabled]="formulario.invalid"></button>
+        <button  pButton type="submit" label="Salvar" [disabled]="formulario.invalid || uploadEmAndamento"></button>
       </div>
       <div class="ui-g-3">
         <button pButton type="button" label="Novo" class="ui-button-secondary"

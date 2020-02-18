@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { LancamentoService } from './../lancamento.service';
 import { PessoaService } from './../../pessoas/pessoa.service';
 import { ErrorHandlerService } from './../../core/error-handler.service';
@@ -28,6 +29,7 @@ export class LancamentoCadastroComponent implements OnInit {
   substituindo o objdto lancamento. */
   formulario: FormGroup;
   titulo: string;
+  uploadEmAndamento = false;
 
   /* Injeta o service de categoria para listagem e errorHandler para tratar
   algum possível erro na chamada de categoriaService */
@@ -77,7 +79,9 @@ export class LancamentoCadastroComponent implements OnInit {
         codigo: [null, Validators.required],
         nome: []
       }),
-      observacao: []
+      observacao: [],
+      anexo: [],
+      urlAnexo: []
     });
   }
 
@@ -184,5 +188,40 @@ carregarLancamento(codigo: number) {
     this.title.setTitle(`Editar Lançamento: ${this.formulario.get('descricao').value}`);
   }
 
+  get urlUploadAnexo() {
+    return this.lancamentoService.urlUploadAnexo();
+  }
+
+  aoTerminarUploadAnexo(event) {
+    const anexo = event.originalEvent.body;
+    this.formulario.patchValue({
+      anexo: anexo.nome,
+      urlAnexo: anexo.url
+    });
+    this.uploadEmAndamento = false;
+  }
+
+  get nomeAnexo() {
+    const nome = this.formulario.get('anexo').value;
+    if (nome) {
+      return nome.substring(nome.indexOf('_') + 1, nome.length);
+    }
+    return '';
+  }
+
+  erroUpload(event) {
+    this.toasty.error('Erro ao tentar enviar anexo!');
+  }
+
+  iniciandoUploadAnexo(event) {
+    this.uploadEmAndamento = true;
+  }
+
+  removerAnexo() {
+    this.formulario.patchValue({
+      anexo: null,
+      urlAnexo: null
+    });
+  }
 
 }
