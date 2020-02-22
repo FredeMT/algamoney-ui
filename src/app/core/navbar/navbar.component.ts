@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ErrorHandlerService } from '../error-handler.service';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-navbar' ,
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })

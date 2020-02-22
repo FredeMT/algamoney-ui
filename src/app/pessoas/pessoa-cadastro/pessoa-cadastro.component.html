@@ -44,16 +44,23 @@
           <app-message [control]="cep" error="required" text="Informe o CEP." ></app-message>
         </div>
         <div class="ui-g-12 ui-md-6 ">
-          <label>Cidade</label>
-          <input pInputText type="text" name="cidade" #cidade="ngModel" required
-          [(ngModel)]="pessoa.endereco.cidade">
-          <app-message [control]="cidade" error="required" text="Informe a cidade." ></app-message>
+          <label>Estado</label>
+          <p-dropdown placeholder="Selecione..." [autoWidth]="false"
+          [filter]="true" [options]="estados"
+          [(ngModel)]="estadoSelecionado" name="estadoSelecionado"
+          (onChange)="carregarCidades()"
+          #estado="ngModel" required></p-dropdown>
+
+          <app-message [control]="estado" error="required" text="Informe o estado." ></app-message>
         </div>
         <div class="ui-g-12 ui-md-6 ">
-          <label>Estado</label>
-          <input pInputText type="text" name="estado" #estado="ngModel" required
-          [(ngModel)]="pessoa.endereco.estado">
-          <app-message [control]="estado" error="required" text="Informe o estado." ></app-message>
+          <label>Cidade</label>
+          <p-dropdown placeholder="Selecione..." [autoWidth]="false"
+          [filter]="true" [options]="cidades"
+          [(ngModel)]="pessoa.endereco.cidade.codigo" name="cidade"
+          #cidade="ngModel" required [disabled]="!estadoSelecionado"></p-dropdown>
+
+          <app-message [control]="cidade" error="required" text="Informe a cidade." ></app-message>
         </div>
       </div>
 
@@ -64,7 +71,7 @@
       <div class="ui-g-12">
         <button pButton type="submit" label="Salvar" [disabled]="f.invalid"></button>
 
-        <button pButton type="button" label="Novo" class="spaceButton  ui-button-secondary"
+        <button pButton type="button" label="Novo" class="ui-button-secondary"
         (click)="novo(f)"></button>
 
         <a routerLink="/pessoas">Voltar para a pesquisa</a>

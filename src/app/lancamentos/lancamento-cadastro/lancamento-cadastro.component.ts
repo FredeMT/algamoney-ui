@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs';
+
 import { LancamentoService } from './../lancamento.service';
 import { PessoaService } from './../../pessoas/pessoa.service';
 import { ErrorHandlerService } from './../../core/error-handler.service';
 import { CategoriaService } from './../../categorias/categoria.service';
 import { Component, OnInit } from '@angular/core';
-import { Lancamento } from 'src/app/core/model';
-import { ToastyService } from 'ng2-toasty';
+import {MessageService} from 'primeng/api';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -37,7 +36,7 @@ export class LancamentoCadastroComponent implements OnInit {
               private errorHandler: ErrorHandlerService,
               private pessoaService: PessoaService,
               private lancamentoService: LancamentoService,
-              private toasty: ToastyService,
+              private messageService: MessageService,
               private route: ActivatedRoute,
               private router: Router,
               private title: Title,
@@ -154,7 +153,7 @@ carregarLancamento(codigo: number) {
     try {
     // Pega todas as propriedades/valor do formulario this.formulario.value  e passa para o service
      const lancamentoAdicionado = await  this.lancamentoService.adicionar(this.formulario.value);
-     this.toasty.success('Lancamento adicionado com sucesso!');
+     this.messageService.add({severity: 'success', detail: 'Lancamento adicionado com sucesso!'});
     //  form.reset({tipo: this.lancamento.tipo});
     //  this.lancamento = new Lancamento();
      this.router.navigate(['/lancamentos', lancamentoAdicionado.codigo]);
@@ -170,7 +169,7 @@ carregarLancamento(codigo: number) {
       // this.lancamento = lancamento;
       // atribui as propriedades e valores do lancamento passado por arrowFunction ao objeto formulario
       this.formulario.patchValue(lancamento);
-      this.toasty.success('Lancamento alterado com sucesso!');
+      this.messageService.add({severity: 'success', detail: 'Lancamento alterado com sucesso!'});
       this.atualizarTituloEdicao();
     })
     .catch(erro => this.errorHandler.handle(erro));
@@ -210,7 +209,7 @@ carregarLancamento(codigo: number) {
   }
 
   erroUpload(event) {
-    this.toasty.error('Erro ao tentar enviar anexo!');
+    this.messageService.add({severity: 'error', detail: 'Erro ao tentar enviar anexo!'});
   }
 
   iniciandoUploadAnexo(event) {

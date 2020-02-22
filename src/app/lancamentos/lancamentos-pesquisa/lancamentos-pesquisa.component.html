@@ -63,7 +63,7 @@
             <td class="col-acoes">
               <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"
               [routerLink]="['/lancamentos', lancamento.codigo]"></a>
-              <button class="spaceButton" pButton icon="pi pi-trash"
+              <button pButton icon="pi pi-trash"
               pTooltip="Excluir" tooltipPosition="top"
               (click)="confirmarExclusao(lancamento)"
               [disabled]="!auth.temPermissao('ROLE_REMOVER_LANCAMENTO')"></button>

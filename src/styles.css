@@ -48,7 +48,7 @@ a:hover, a:focus {
   text-align: center;
 }
 
-/*Estilo aplicado aos buttons para resolver o problema de espaçamento lateral*/
-.spaceButton {
-  margin: 0 .5em!important;
+/*Estilo aplicado aos buttons para resolver o problema de espaçamento lateral cap. 25.5. Corrigindo icones*/
+a, button {
+	margin-right: .25em!important;
 }

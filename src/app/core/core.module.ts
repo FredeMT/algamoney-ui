@@ -1,9 +1,9 @@
 
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
-import {ConfirmationService} from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import {ToastyModule} from 'ng2-toasty';
+import {ToastModule} from 'primeng/toast';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
@@ -15,15 +15,16 @@ registerLocaleData(localePt);
 
 @NgModule({
   declarations: [NavbarComponent, PaginaNaoEncontradaComponent, NaoAutorizadoComponent],
-  exports: [NavbarComponent, ToastyModule,
+  exports: [NavbarComponent, ToastModule,
     ConfirmDialogModule],
   imports: [
     CommonModule,
     RouterModule,
-    ToastyModule.forRoot(),
+    ToastModule,
     ConfirmDialogModule
   ],
   providers: [ConfirmationService,
+    MessageService,
     {provide: LOCALE_ID, useValue: 'pt-BR'}]
 })
 export class CoreModule { }

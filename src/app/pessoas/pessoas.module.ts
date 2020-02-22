@@ -1,3 +1,4 @@
+import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 import { PanelModule } from 'primeng/panel';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -34,6 +35,7 @@ import { PessoaCadastroContatoComponent } from './pessoa-cadastro-contato/pessoa
     TableModule,
     TooltipModule,
     InputMaskModule,
+    DropdownModule,
 
     PessoasRoutingModule,
     SharedModule

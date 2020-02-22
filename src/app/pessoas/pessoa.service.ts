@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pessoa } from '../core/model';
+import { Pessoa, Estado, Cidade } from '../core/model';
 
 
 export class PessoaFiltro {
@@ -17,9 +17,13 @@ export class PessoaService {
 
   // Propriedade que indica a URI a ser utilizada
   pessoasUrl: string;
+  cidadesUrl: string;
+  estadosUrl: string;
 
   constructor(private http: HttpClient) {
     this.pessoasUrl = `${environment.apiUrl}/pessoas`;
+    this.cidadesUrl = `${environment.apiUrl}/cidades`;
+    this.estadosUrl = `${environment.apiUrl}/estados`;
   }
 
   pesquisar(filtro: PessoaFiltro): Promise<any> {
@@ -33,22 +37,22 @@ export class PessoaService {
       params = params.set('nome', filtro.nome);
     }
 
-    return this.http.get(`${this.pessoasUrl}?`, { params })
+    return this.http.get<any>(`${this.pessoasUrl}?`, { params })
       .toPromise()
       .then(response => {
-        const pessoas = response['content'];
+        const pessoas = response.content;
         const resultado = {
           pessoas,
-          total: response['totalElements']
+          total: response.totalElements
         };
         return resultado;
       });
   }
 
   listarTodas(): Promise<any> {
-    return this.http.get(this.pessoasUrl)
+    return this.http.get<any>(this.pessoasUrl)
       .toPromise()
-      .then(response => response['content']);
+      .then(response => response.content);
   }
 
   excluir(codigo: number): Promise<void> {
@@ -77,6 +81,18 @@ export class PessoaService {
 
   buscarPorCodigo(codigo: number): Promise<Pessoa> {
     return this.http.get<Pessoa>(`${this.pessoasUrl}/${codigo}`)
+    .toPromise();
+  }
+
+  listarEstados(): Promise<Estado[]> {
+    return this.http.get<Estado[]>(this.estadosUrl)
+    .toPromise();
+  }
+
+  pesquisarCidades(estado): Promise<any> {
+    const params = new HttpParams()
+    .append('estado', estado);
+    return this.http.get(this.cidadesUrl, { params })
     .toPromise();
   }
 

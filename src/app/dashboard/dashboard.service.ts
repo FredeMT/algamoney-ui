@@ -16,9 +16,8 @@ export class DashboardService {
    }
    // Retorna uma promise, no formtato JSON, do tipo Array de any (Promise<Array<any>>).
    lancamentosPorCategoria(): Promise<Array<any>> {
-    return this.http.get(`${this.lancamentosUrl}/estatisticas/por-categoria`)
-    .toPromise()
-    .then(response => response as Array<any>);
+    return this.http.get<Array<any>>(`${this.lancamentosUrl}/estatisticas/por-categoria`)
+    .toPromise();
    }
 
    lancamentosPorDia(mesReferencia): Promise<Array<any>> {

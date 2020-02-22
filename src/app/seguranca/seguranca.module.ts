@@ -31,7 +31,8 @@ export function tokenGetter(): string {
         tokenGetter,
         // whitelistedDomains: [`${environment.apiUrl.substring(environment.apiUrl.indexOf('://') + 3)}`],
         whitelistedDomains: environment.tokenWhitelistedDomains,
-        blacklistedRoutes: [`${environment.apiUrl}/oauth/token`]
+        // blacklistedRoutes: [`${environment.apiUrl}/oauth/token`]
+        blacklistedRoutes: environment.tokenBlacklistedRoutes
       }
     })
   ],

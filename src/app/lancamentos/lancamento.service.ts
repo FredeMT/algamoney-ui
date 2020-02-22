@@ -47,13 +47,13 @@ export class LancamentoService {
     if (filtro.dataVencimentoFim) {
       params = params.set('dataVencimentoAte', moment(filtro.dataVencimentoFim).format('YYYY-MM-DD'));
     }
-    return this.http.get(`${this.lancamentosUrl}?resumo`, { params })
+    return this.http.get<any>(`${this.lancamentosUrl}?resumo`, { params })
       .toPromise()
       .then(response => {
-        const lancamentos = response['content'];
+        const lancamentos = response.content;
         const resultado = {
           lancamentos,
-          total: response['totalElements']
+          total: response.totalElements
         };
         return  resultado;
       });

@@ -1,10 +1,10 @@
+import { MessageService } from 'primeng/api';
 import { AuthService } from './../../seguranca/auth.service';
 import { Table } from 'primeng/table';
 import { PessoaService } from './../pessoa.service';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { PessoaFiltro } from '../pessoa.service';
 import { LazyLoadEvent, ConfirmationService } from 'primeng/components/common/api';
-import { ToastyService } from 'ng2-toasty';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { Title } from '@angular/platform-browser';
 
@@ -21,7 +21,7 @@ export class PessoasPesquisaComponent implements OnInit {
   @ViewChild('tabela', { static: true }) grid: Table;
 
   constructor(private pessoaService: PessoaService,
-              private toasty: ToastyService,
+              private messageService: MessageService,
               private confirmation: ConfirmationService,
               private errorHandler: ErrorHandlerService,
               private title: Title,
@@ -51,7 +51,7 @@ export class PessoasPesquisaComponent implements OnInit {
       .then(() => {
         console.log('Excluído');
         this.grid.reset();
-        this.toasty.success('Pessoa excluída com sucesso!');
+        this.messageService.add({severity: 'success', detail: 'Pessoa excluída com sucesso!'});
       })
       .catch(erro => this.errorHandler.handle(erro));
   }
@@ -73,7 +73,7 @@ export class PessoasPesquisaComponent implements OnInit {
         const acao = novoStatus ? 'ativada' : 'desativada';
 
         pessoa.ativo = novoStatus;
-        this.toasty.success(`Pessoa ${acao} com sucesso!`);
+        this.messageService.add({severity: 'success', detail: `Pessoa ${acao} com sucesso!`});
       })
       .catch(erro => this.errorHandler.handle(erro));
   }
